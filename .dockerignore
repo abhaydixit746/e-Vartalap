@@ -1,0 +1,10 @@
+.git
+.gitignore
+.env
+config/config.local.php
+vendor
+.idea
+.vscode
+*.log
+public/uploads/photos/*
+!public/uploads/photos/.gitkeep

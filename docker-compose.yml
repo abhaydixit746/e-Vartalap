@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    container_name: evartalap-app
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: evartalap
+      DB_USER: evartalap
+      DB_PASSWORD: evartalap_password
+      APP_URL: http://localhost:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - uploads:/var/www/html/public/uploads/photos
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    container_name: evartalap-db
+    environment:
+      MYSQL_DATABASE: evartalap
+      MYSQL_USER: evartalap
+      MYSQL_PASSWORD: evartalap_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  uploads:

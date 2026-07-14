@@ -5,17 +5,17 @@
 
 return [
     'db' => [
-        'host'     => 'localhost',
-        'port'     => '3306',
-        'dbname'   => 'evartalap',
-        'username' => 'root',
-        'password' => '',          // ← change this
+        'host'     => getenv('DB_HOST') ?: 'localhost',
+        'port'     => getenv('DB_PORT') ?: '3306',
+        'dbname'   => getenv('DB_NAME') ?: 'evartalap',
+        'username' => getenv('DB_USER') ?: 'root',
+        'password' => getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '',
         'charset'  => 'utf8mb4',
     ],
 
     'app' => [
         'name'        => 'e-Vartalap',
-        'url'         => 'http://localhost',   // no trailing slash
+        'url'         => getenv('APP_URL') ?: 'http://localhost:8080',   // no trailing slash
         'debug'       => true,
         'page_size'   => 10,
         'upload_dir'  => __DIR__ . '/../public/uploads/photos',
