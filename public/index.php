@@ -3,8 +3,9 @@
  * e-Vartalap PHP — Front Controller
  * All requests routed through here via .htaccess
  */
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+$isProduction = (getenv('APP_ENV') ?: 'local') === 'production';
+ini_set('display_errors', $isProduction ? '0' : '1');
+ini_set('display_startup_errors', $isProduction ? '0' : '1');
 error_reporting(E_ALL);
 
 require_once dirname(__DIR__) . '/config/bootstrap.php';
