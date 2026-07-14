@@ -1,0 +1,22 @@
+# Dependencies
+/vendor/
+
+# Environment / config overrides
+config/config.local.php
+.env
+
+# Uploaded files (keep directory)
+public/uploads/photos/*
+!public/uploads/photos/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log
