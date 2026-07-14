@@ -1,29 +1,7 @@
 services:
-  - type: pserv
-    name: evartalap-mysql
-    runtime: docker
-    region: singapore
-    plan: starter
-    dockerfilePath: ./Dockerfile.mysql
-    dockerContext: .
-    envVars:
-      - key: MYSQL_DATABASE
-        value: evartalap
-      - key: MYSQL_USER
-        value: evartalap
-      - key: MYSQL_PASSWORD
-        generateValue: true
-      - key: MYSQL_ROOT_PASSWORD
-        generateValue: true
-    disk:
-      name: mysql-data
-      mountPath: /var/lib/mysql
-      sizeGB: 5
-
   - type: web
     name: e-vartalap
     runtime: docker
-    region: singapore
     plan: free
     dockerfilePath: ./Dockerfile
     dockerContext: .
@@ -33,19 +11,19 @@ services:
         value: production
       - key: APP_URL
         value: https://e-vartalap.onrender.com
+      - key: AUTO_INIT_DB
+        value: true
       - key: DB_HOST
-        fromService:
-          name: evartalap-mysql
-          type: pserv
-          property: host
+        sync: false
       - key: DB_PORT
-        value: 3306
+        sync: false
       - key: DB_NAME
-        value: evartalap
+        sync: false
       - key: DB_USER
-        value: evartalap
+        sync: false
       - key: DB_PASSWORD
-        fromService:
-          name: evartalap-mysql
-          type: pserv
-          envVarKey: MYSQL_PASSWORD
+        sync: false
+      - key: DB_SSL_MODE
+        value: verify-ca
+      - key: DB_SSL_CA_CERT
+        sync: false

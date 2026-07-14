@@ -18,8 +18,9 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     > /etc/apache2/conf-available/evartalap.conf \
     && a2enconf evartalap \
     && mkdir -p /var/www/html/public/uploads/photos \
-    && chown -R www-data:www-data /var/www/html/public/uploads
+    && chown -R www-data:www-data /var/www/html/public/uploads \
+    && chmod +x /var/www/html/docker-entrypoint-render.sh
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["/var/www/html/docker-entrypoint-render.sh"]
